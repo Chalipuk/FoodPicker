@@ -1,17 +1,13 @@
-//
-//  FoodPickerApp.swift
-//  FoodPicker
-//
-//  Created by misrama3 on 18/9/2569 BE.
-//
-
 import SwiftUI
 
 @main
 struct FoodPickerApp: App {
+    @State private var store = MenuStore()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(store)
         }
     }
 }

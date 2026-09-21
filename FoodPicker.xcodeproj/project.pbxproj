@@ -10,9 +10,22 @@
 		3D6DDF9B305D2A90001D3949 /* FoodPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3D0742AB3060E72F00FACB80 /* Exceptions for "FoodPicker" folder in "FoodPicker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3D6DDF9A305D2A90001D3949 /* FoodPicker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3D6DDF9D305D2A90001D3949 /* FoodPicker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3D0742AB3060E72F00FACB80 /* Exceptions for "FoodPicker" folder in "FoodPicker" target */,
+			);
 			path = FoodPicker;
 			sourceTree = "<group>";
 		};
@@ -32,8 +45,8 @@
 		3D6DDF92305D2A90001D3949 = {
 			isa = PBXGroup;
 			children = (
-				3D6DDF9D305D2A90001D3949 /* FoodPicker */,
 				3D6DDF9C305D2A90001D3949 /* Products */,
+				3D6DDF9D305D2A90001D3949 /* FoodPicker */,
 			);
 			sourceTree = "<group>";
 		};
@@ -251,6 +264,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FoodPicker/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -294,6 +308,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FoodPicker/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
