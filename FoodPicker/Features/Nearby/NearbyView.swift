@@ -1,8 +1,9 @@
 import SwiftUI
 import MapKit
 
+// food = nil คือโหมดดูร้านอาหารทุกแบบรอบตัว, มี food คือหาร้านของเมนูที่สุ่มได้
 struct NearbyView: View {
-    let food: Food
+    var food: Food? = nil
 
     enum Status: Equatable {
         case locating, searching, done, denied, failed
@@ -25,12 +26,12 @@ struct NearbyView: View {
                     }
                 }
                 .mapControls { MapUserLocationButton() }
-                .frame(height: 300)
+                .frame(height: food == nil ? 420 : 300)
 
                 content
                     .frame(maxHeight: .infinity)
             }
-            .navigationTitle("\(food.emoji) \(food.name) ใกล้ฉัน")
+            .navigationTitle(food.map { "\($0.emoji) \($0.name) ใกล้ฉัน" } ?? "🍽️ ร้านอาหารใกล้ฉัน")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -48,7 +49,7 @@ struct NearbyView: View {
         case .locating:
             message("กำลังหาตำแหน่งของคุณ...", loading: true)
         case .searching:
-            message("กำลังค้นหาร้าน\(food.name)...", loading: true)
+            message("กำลังค้นหาร้าน\(food?.name ?? "อาหาร")...", loading: true)
         case .denied:
             VStack(spacing: 14) {
                 message("แอปยังไม่ได้รับอนุญาตให้ใช้ตำแหน่ง", loading: false)
@@ -64,7 +65,7 @@ struct NearbyView: View {
             }
         case .done:
             if places.isEmpty {
-                message("ไม่เจอร้าน\(food.name) ในระยะ 5 กม.\nลองสุ่มเมนูอื่นดูนะ", loading: false)
+                message(food.map { "ไม่เจอร้าน\($0.name) ในระยะ 5 กม.\nลองสุ่มเมนูอื่นดูนะ" } ?? "ไม่เจอร้านอาหารแถวนี้เลย", loading: false)
             } else {
                 List(places) { place in
                     Button {
@@ -114,7 +115,11 @@ struct NearbyView: View {
         }
 
         status = .searching
-        let items = await searchPlaces(food.name, near: here)
+        let items = if let food {
+            await searchPlaces(food.name, near: here)
+        } else {
+            await searchAllRestaurants(near: here)
+        }
         let me = CLLocation(latitude: here.latitude, longitude: here.longitude)
 
         places = items
@@ -127,6 +132,12 @@ struct NearbyView: View {
 
         withAnimation { camera = .automatic }
         status = .done
+    }
+
+    private func searchAllRestaurants(near c: CLLocationCoordinate2D) async -> [MKMapItem] {
+        let request = MKLocalPointsOfInterestRequest(center: c, radius: 2000)
+        request.pointOfInterestFilter = MKPointOfInterestFilter(including: [.restaurant, .cafe, .bakery, .foodMarket])
+        return (try? await MKLocalSearch(request: request).start().mapItems) ?? []
     }
 
     private func searchPlaces(_ query: String, near c: CLLocationCoordinate2D) async -> [MKMapItem] {

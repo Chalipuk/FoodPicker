@@ -16,6 +16,7 @@ struct PickerScreen: View {
     @State private var landed = 0
     @State private var showMenuList = false
     @State private var nearbyFood: Food?
+    @State private var showNearbyMap = false
     @State private var showFilters = false
     @State private var showHistory = false
     @State private var showGroups = false
@@ -117,6 +118,7 @@ struct PickerScreen: View {
             Text("ให้สุ่มเฉพาะเมนูมังสวิรัติไหม? แอปจะปิดให้เองเมื่อหมดเทศกาล")
         }
         .sheet(item: $nearbyFood) { food in NearbyView(food: food) }
+        .sheet(isPresented: $showNearbyMap) { NearbyView() }
         // ถ้าหมวดที่เลือกหายไป (เช่น เอาเมนูโปรดอันสุดท้ายออก) ให้กลับไป "ทั้งหมด" จะได้ไม่ค้าง
         .onChange(of: tags) {
             if !tags.contains(selectedTag) {
@@ -139,6 +141,12 @@ struct PickerScreen: View {
                     .foregroundStyle(Color.ink.opacity(0.6))
             }
             Spacer()
+            Button("ร้านอาหารใกล้ฉัน", systemImage: "map") {
+                showNearbyMap = true
+            }
+            .labelStyle(.iconOnly)
+            .buttonStyle(.glass)
+
             Button("เมนูทั้งหมด", systemImage: "list.bullet") {
                 showMenuList = true
             }
@@ -389,7 +397,6 @@ struct PickerScreen: View {
                 .foregroundStyle(Color.ink)
                 .symbolEffect(.bounce, value: tick)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 10)
         }
         .buttonStyle(.glassProminent)
         .tint(Color.softAqua)

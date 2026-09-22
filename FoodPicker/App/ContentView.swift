@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(MenuStore.self) private var store
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @State private var isLoading = true
 
@@ -17,13 +18,13 @@ struct ContentView: View {
 
             if isLoading {
                 LoadingView()
-                    .transition(.opacity.combined(with: .scale(scale: 1.05)))
+                    .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 1.08)))
                     .zIndex(1)
             }
         }
         .task {
-            try? await Task.sleep(for: .seconds(1.2))
-            withAnimation(.easeInOut(duration: 0.5)) { isLoading = false }
+            try? await Task.sleep(for: .milliseconds(reduceMotion ? 300 : 1250))
+            withAnimation(.easeInOut(duration: 0.45)) { isLoading = false }
         }
         .onOpenURL { store.handleOpenURL($0) }
         .preferredColorScheme(.light)
