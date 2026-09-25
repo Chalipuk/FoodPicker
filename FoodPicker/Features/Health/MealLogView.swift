@@ -4,6 +4,7 @@ struct MealLogView: View {
     @Environment(MenuStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var addingTo: MealSlot?
+    @State private var showScan = false
 
     private static let dayStyle = Date.FormatStyle()
         .weekday(.abbreviated).day().month(.abbreviated)
@@ -35,6 +36,10 @@ struct MealLogView: View {
                     .padding(.vertical, 6)
                 } footer: {
                     Text("แคลอรี่เป็นค่าโดยประมาณ แต่ละร้านต่างกัน · ไม่ใช่คำแนะนำทางการแพทย์")
+                }
+
+                Section {
+                    Button("ถ่ายรูปอาหาร ให้แอปช่วยหาเมนู", systemImage: "camera") { showScan = true }
                 }
 
                 ForEach(MealSlot.allCases) { slot in
@@ -88,6 +93,9 @@ struct MealLogView: View {
             }
             .sheet(item: $addingTo) { slot in
                 FoodSearchPicker(slot: slot).environment(store)
+            }
+            .sheet(isPresented: $showScan) {
+                FoodScanView().environment(store)
             }
         }
         .tint(Color.ink)

@@ -13,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>ใช้กล้องถ่ายรูปอาหาร เพื่อช่วยหาว่าเป็นเมนูไหนและบันทึกแคลอรี่</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ใช้ตำแหน่งของคุณเพื่อค้นหาร้านอาหารใกล้ ๆ</string>
 	<key>UILaunchScreen</key>
