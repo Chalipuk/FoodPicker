@@ -1,7 +1,6 @@
 import SwiftUI
 import MapKit
 
-// food = nil คือโหมดดูร้านอาหารทุกแบบรอบตัว, มี food คือหาร้านของเมนูที่สุ่มได้
 struct NearbyView: View {
     var food: Food? = nil
 
@@ -21,8 +20,7 @@ struct NearbyView: View {
                 Map(position: $camera) {
                     UserAnnotation()
                     ForEach(places) { place in
-                        Marker(place.name, systemImage: "fork.knife", coordinate: place.coordinate)
-                            .tint(Color.ink)
+                        Marker(place.name, systemImage: "fork.knife", coordinate: place.coordinate).tint(Color.ink)
                     }
                 }
                 .mapControls { MapUserLocationButton() }

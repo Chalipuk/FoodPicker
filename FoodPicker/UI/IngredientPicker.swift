@@ -1,6 +1,5 @@
 import SwiftUI
 
-// ใส่ใน Form ได้ตรง ๆ — แสดงเป็น Section ละกลุ่ม + ส่วนเพิ่มเอง
 struct IngredientPicker: View {
     @Binding var selection: Set<String>
     var suggestions: [String] = []
@@ -77,7 +76,6 @@ struct IngredientPicker: View {
     }
 }
 
-// แถวสรุปใน Form ที่แตะแล้วไปหน้าเลือกวัตถุดิบ
 struct IngredientSelectionRow: View {
     let title: String
     let footer: String

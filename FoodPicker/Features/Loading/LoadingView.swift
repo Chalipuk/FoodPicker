@@ -1,7 +1,5 @@
 import SwiftUI
 
-// เฟรมแรกต้องเหมือน Launch Screen เป๊ะ (พื้น LaunchBackground + LaunchLogo 150pt กลางจอ)
-// ผู้ใช้จะเห็นเป็นภาพเดียวกันที่เริ่มขยับ ไม่มีรอยกระตุก
 private struct DiceToss {
     var angle: Double = 0
     var scale: Double = 1
@@ -29,7 +27,6 @@ struct LoadingView: View {
                         .scaleEffect(toss.scale)
                         .offset(y: toss.lift)
                 } keyframes: { _ in
-                    // ย่อตัวเตรียมโยน → ลอยขึ้นพร้อมหมุน 1 รอบ → ตกลงมาเด้ง
                     KeyframeTrack(\.angle) {
                         CubicKeyframe(-18, duration: 0.15)
                         SpringKeyframe(360, duration: 0.6, spring: .bouncy)

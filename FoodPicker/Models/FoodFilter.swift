@@ -15,9 +15,7 @@ struct FoodFilter: Equatable {
     var allergies: Set<String> = []
     var maxPrice: PriceLevel?
     var maxCalories: Int?
-
     var isActive: Bool { activeCount > 0 }
-
     var activeCount: Int {
         [spicy != .any, vegetarian, !avoid.isEmpty, !allergies.isEmpty, maxPrice != nil, maxCalories != nil].filter { $0 }.count
     }
@@ -56,9 +54,9 @@ struct FoodFilter: Equatable {
         guard mode == .food else { return true }
 
         switch spicy {
-        case .any: break
-        case .spicy: if !food.spicy { return false }
-        case .mild: if food.spicy { return false }
+            case .any: break
+            case .spicy: if !food.spicy { return false }
+            case .mild: if food.spicy { return false }
         }
         if vegetarian && !food.isVegetarian { return false }
         return true

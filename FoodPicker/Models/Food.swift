@@ -5,12 +5,11 @@ enum PriceLevel: Int, Codable, CaseIterable, Identifiable, Comparable {
 
     var id: Int { rawValue }
     var label: String { String(repeating: "฿", count: rawValue) }
-
     var hint: String {
         switch self {
-        case .cheap: "ไม่เกิน ~100"
-        case .mid: "~100–300"
-        case .high: "300 ขึ้นไป"
+            case .cheap: "ไม่เกิน ~100"
+            case .mid: "~100–300"
+            case .high: "300 ขึ้นไป"
         }
     }
 
@@ -31,8 +30,7 @@ struct Food: Identifiable, Equatable, Codable {
     var id: String { name }
     var isVegetarian: Bool { ingredients.isDisjoint(with: Ingredients.animalNames) }
 
-    init(_ name: String, _ emoji: String, _ tag: String,
-         _ ingredients: Set<String> = [], _ price: PriceLevel = .cheap, spicy: Bool = false, kcal: Int? = nil) {
+    init(_ name: String, _ emoji: String, _ tag: String, _ ingredients: Set<String> = [], _ price: PriceLevel = .cheap, spicy: Bool = false, kcal: Int? = nil) {
         self.name = name
         self.emoji = emoji
         self.tag = tag

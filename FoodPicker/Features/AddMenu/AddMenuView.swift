@@ -29,7 +29,6 @@ struct AddMenuView: View {
                     TextField("ชื่อเมนู เช่น ข้าวมันไก่ป้าแดง", text: $name)
                     TextField("อีโมจิ (ไม่ใส่ก็ได้)", text: $emoji)
                         .onChange(of: emoji) {
-                            // เก็บแค่ตัวแรก — Character นับอีโมจิที่ประกอบหลายส่วนเป็น 1 ตัวให้แล้ว
                             if emoji.count > 1 { emoji = String(emoji.prefix(1)) }
                         }
                 } footer: {

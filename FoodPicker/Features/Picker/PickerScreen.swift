@@ -23,7 +23,6 @@ struct PickerScreen: View {
     @State private var showMealLog = false
     @State private var loggedFoodID: Food.ID?
     @State private var showJayAlert = false
-    // ดึงเพื่อเริ่มใหม่ = ซ่อน "สุ่มล่าสุด" บนหน้านี้ แต่ไม่ลบประวัติที่บันทึกไว้
     @State private var recentSince = Date.distantPast
 
     private var favorites: Set<String> { NameSet.decode(favoritesRaw) }
@@ -87,8 +86,7 @@ struct PickerScreen: View {
                     if !recentHistory.isEmpty {
                         historySection
                     } else if !store.history.isEmpty {
-                        Button("ดูประวัติการสุ่ม", systemImage: "clock") { showHistory = true }
-                            .buttonStyle(.glass)
+                        Button("ดูประวัติการสุ่ม", systemImage: "clock") { showHistory = true }.buttonStyle(.glass)
                     }
                 }
                 .padding(20)
@@ -329,11 +327,8 @@ struct PickerScreen: View {
             .frame(height: 200)
             .clipped()
 
-            if pool.isEmpty && store.filter.isActive {
-                Button("ล้างตัวกรอง", systemImage: "xmark.circle") {
-                    withAnimation(.snappy) { store.filter = FoodFilter() }
-                }
-                .buttonStyle(.glass)
+            if pool.isEmpty && store.hasRestrictions {
+                restrictionFixes
             }
 
             if let food = current, !isSpinning {
@@ -380,6 +375,33 @@ struct PickerScreen: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 32)
         .glassEffect(.regular, in: .rect(cornerRadius: 36))
+    }
+
+    // เมนูหมดเพราะเงื่อนไขไหน ให้ปิดเงื่อนไขนั้นได้จากตรงนี้เลย ไม่ต้องเดาว่าไปตั้งไว้ที่หน้าไหน
+    private var restrictionFixes: some View {
+        VStack(spacing: 8) {
+            if store.filter.isActive {
+                Button("ล้างตัวกรอง", systemImage: "xmark.circle") {
+                    withAnimation(.snappy) { store.filter = FoodFilter() }
+                }
+            }
+            if let group = store.activeGroup {
+                Button("กินคนเดียว (เลิกสุ่มให้ \(group.name))", systemImage: "person") {
+                    withAnimation(.snappy) { store.activeGroupID = nil }
+                }
+            }
+            if store.isBudgetTight {
+                Button("ปิดโหมดปลายเดือน", systemImage: "banknote") {
+                    withAnimation(.snappy) { store.settings.budgetModeEnabled = false }
+                }
+            }
+            if store.health.fitRemainingCalories {
+                Button("เลิกจำกัดแคลที่เหลือวันนี้", systemImage: "flame") {
+                    withAnimation(.snappy) { store.health.fitRemainingCalories = false }
+                }
+            }
+        }
+        .buttonStyle(.glass)
     }
 
     private var emptyMessage: String {

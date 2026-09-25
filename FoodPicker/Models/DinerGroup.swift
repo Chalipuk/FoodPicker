@@ -7,7 +7,6 @@ struct Diner: Identifiable, Equatable {
     var noSpicy = false
     var avoid: Set<String> = []
     var allergies: Set<String> = []
-
     var filter: FoodFilter {
         FoodFilter(spicy: noSpicy ? .mild : .any, vegetarian: vegetarian, avoid: avoid, allergies: allergies)
     }
@@ -46,7 +45,6 @@ struct DinerGroup: Identifiable, Codable, Equatable {
     var id = UUID()
     var name = ""
     var members: [Diner] = []
-
     var filter: FoodFilter {
         members.reduce(FoodFilter()) { $0.merged(with: $1.filter) }
     }

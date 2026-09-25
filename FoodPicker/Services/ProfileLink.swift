@@ -1,7 +1,6 @@
 import UIKit
 import CoreImage.CIFilterBuiltins
 
-// แชร์โปรไฟล์แบบไม่ต้องมี server: ยัดข้อมูลทั้งก้อน (JSON → base64) ไว้ในลิงก์ foodpicker://profile?d=...
 enum ProfileLink {
     static let scheme = "foodpicker"
 
@@ -16,13 +15,11 @@ enum ProfileLink {
 
     static func diner(from url: URL) -> Diner? {
         guard url.scheme == scheme, url.host == "profile",
-              let value = URLComponents(url: url, resolvingAgainstBaseURL: false)?
-                .queryItems?.first(where: { $0.name == "d" })?.value,
+              let value = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "d" })?.value,
               let data = data(fromBase64URL: value) else { return nil }
         return try? JSONDecoder().decode(Diner.self, from: data)
     }
 
-    // รับข้อความที่เพื่อนส่งมาทั้งก้อน (เช่นจาก LINE) แล้วหาลิงก์ข้างใน
     static func diner(fromText text: String) -> Diner? {
         guard let range = text.range(of: "\(scheme)://profile?d=[A-Za-z0-9_-]+", options: .regularExpression),
               let url = URL(string: String(text[range])) else { return nil }
