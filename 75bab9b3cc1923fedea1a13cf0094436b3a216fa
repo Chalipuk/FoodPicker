@@ -1,0 +1,7 @@
+[Claude notes]
+Verified: build passes at iOS 26.0; app launched on iOS 26.4 simulator; lossy array decode tested with a script (plain decode loses all, lossy keeps good items).
+Backup key: "<key>.backup" in UserDefaults holds raw data when decoding fails.
+Open items:
+- "ล้างตัวกรอง" still resets the whole filter, including allergies in the profile.
+- Signing team is still the free Personal Team; switch to the paid Individual team before App Store.
+- App Privacy form in App Store Connect must still be filled in manually.
