@@ -1,0 +1,5 @@
+[Claude notes]
+Verified: FoodMatcher tested with swiftc scripts (e.g. bubble_tea -> ชาไทย/ชานมไข่มุก, mango+rice -> ข้าวเหนียวมะม่วง, bowl/chopsticks only -> no guess); app builds.
+Not verified: candidate list, warnings and save flow were never seen running in the app. Vision fails on the simulator ("Failed to create espresso context"); a simulator-only CPU fallback was added but is untested.
+Limit: Apple Vision does not know Thai dish names, so most Thai food returns "not sure" + manual search.
+Next (paused): swap FoodRecognizer.guess to Gemini Flash via Firebase AI Logic, Gemini Developer API on the free Spark plan (no Blaze / Vertex AI / card). Bundle ID: com.chalipuk.test.FoodPicker. Keep Vision as offline/quota fallback.
